@@ -1,0 +1,58 @@
+version: 0.2
+
+env:
+  variables:
+    BACKEND_IMAGE: "auto-blog-backend"
+    FRONTEND_IMAGE: "auto-blog-frontend"
+  parameter-store:# Add parameter store for AWS credentials if needed
+    # AWS_ACCESS_KEY_ID: "/CodeBuild/AWS_ACCESS_KEY_ID"
+    # AWS_SECRET_ACCESS_KEY: "/CodeBuild/AWS_SECRET_ACCESS_KEY"
+
+phases:
+  install:
+    runtime-versions:
+      docker: 27.3.1
+    commands:
+      - echo "Installing AWS CLI v2..."
+      - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+      - unzip awscliv2.zip
+      - ./aws/install --update
+      - aws --version
+
+  pre_build:
+    commands:
+      - echo "Logging in to Amazon ECR..."
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com
+      - REPO_BACKEND="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/$BACKEND_IMAGE"
+      - REPO_FRONTEND="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/$FRONTEND_IMAGE"
+
+      # Create ECR repositories if they don't exist
+      - aws ecr describe-repositories --repository-names $BACKEND_IMAGE || aws ecr create-repository --repository-name $BACKEND_IMAGE
+      - aws ecr describe-repositories --repository-names $FRONTEND_IMAGE || aws ecr create-repository --repository-name $FRONTEND_IMAGE
+
+  build:
+    commands:
+      - echo "Build backend image..."
+      - cd backend # Navigate to backend directory
+      - docker build -t $REPO_BACKEND:latest .
+      - cd ..
+
+      - echo "Build frontend image..."
+      - cd frontend # Navigate to frontend directory
+      - docker build -t $REPO_FRONTEND:latest .
+      - cd ..
+
+  post_build:
+    commands:
+      - echo "Pushing images to ECR..."
+      - docker push $REPO_BACKEND:latest
+      - docker push $REPO_FRONTEND:latest
+
+      # Output image URIs for downstream tasks (CodePipeline, ECS, etc.)
+      - echo "Writing image definitions..."
+      - printf '{"BackendImage":"%s","FrontendImage":"%s"}' $REPO_BACKEND:latest $REPO_FRONTEND:latest > imageDefinitions.json
+
+artifacts:
+  files:
+    - "imageDefinitions.json" # Only include necessary artifacts
+  discard-paths: yes
