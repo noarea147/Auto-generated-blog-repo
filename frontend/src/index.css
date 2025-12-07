@@ -1,0 +1,235 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Poppins:wght@600;700&display=swap");
+
+:root {
+  --color-primary: #3b82f6;
+  --color-text: #1f2937;
+  --color-text-light: #4b5563;
+  --color-background: #ffffff;
+  --color-background-secondary: #f3f4f6;
+  --color-border: #e5e7eb;
+  --color-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -2px rgba(0, 0, 0, 0.1);
+
+  --font-heading: "Poppins", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --max-width: 1000px;
+}
+
+/* --- 1. GLOBAL BASE STYLES --- */
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-background-secondary);
+  color: var(--color-text);
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+/* Base Headings */
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+  color: #1d4ed8;
+}
+
+/* --- 2. APP COMPONENT STYLES --- */
+.app-container {
+  padding: 0 20px;
+}
+
+.app-header {
+  margin-bottom: 50px;
+  padding-top: 20px;
+  text-align: center;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.app-header h1 {
+  font-size: 3rem;
+  margin-bottom: 0;
+  color: var(--color-primary);
+}
+
+.app-header p {
+  font-size: 1.1rem;
+  color: var(--color-text-light);
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+.app-main {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* --- 3. HOME COMPONENT STYLES --- */
+.home-container {
+  width: 100%;
+  max-width: var(--max-width);
+  padding: 20px 0;
+}
+
+.main-title {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 40px;
+}
+
+.articles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.article-card-link {
+  display: block;
+  text-decoration: none;
+}
+
+.article-card {
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: var(--color-shadow);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  height: 95%;
+  display: flex;
+  flex-direction: column;
+}
+
+.article-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+
+.article-title {
+  font-size: 1.4rem;
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: var(--color-text);
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+}
+
+.article-meta {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  margin-top: auto;
+}
+
+.read-more-link {
+  display: inline-block;
+  margin-top: 10px;
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+/* State Messages */
+.loading-state,
+.error-state,
+.empty-state {
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 40px;
+  background-color: var(--color-background);
+  border-radius: 8px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* --- 4. ARTICLE COMPONENT STYLES --- */
+.article-page {
+  width: 100%;
+  max-width: 750px;
+  padding: 40px;
+  background-color: var(--color-background);
+  border-radius: 12px;
+  box-shadow: var(--color-shadow);
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 30px;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+.article-header .article-title {
+  font-size: 2.5rem;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.article-meta {
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  padding: 15px 0;
+  margin-bottom: 30px;
+  font-size: 0.9rem;
+  color: var(--color-text-light);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.article-author,
+.article-date {
+  margin: 0;
+}
+
+.article-tags {
+  display: flex;
+  gap: 8px;
+}
+
+.tag-pill {
+  background-color: var(--color-background-secondary);
+  color: var(--color-text-light);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.article-content {
+  font-size: 1.15rem;
+  color: var(--color-text);
+}
+
+.article-body-html p {
+  margin-bottom: 1.5em;
+}
+
+.article-footer {
+  margin-top: 50px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border);
+  text-align: center;
+}
+
+.back-link-bottom {
+  font-style: italic;
+  font-size: 0.9rem;
+}
