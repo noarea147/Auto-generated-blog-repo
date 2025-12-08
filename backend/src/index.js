@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+require("dotenv").config();
 const { Sequelize, DataTypes } = require("sequelize");
 const articleRoutes = require("./routes/articles");
 const articleJob = require("./services/articleJob");

@@ -1,7 +1,5 @@
 const axios = require("axios");
-
-const OPENROUTER_API_KEY =
-  "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";
+require("dotenv").config();
 
 async function generateArticle() {
   const prompt = `
@@ -23,7 +21,7 @@ async function generateArticle() {
   - Include bullet points where relevant
   - Include code snippets where relevant 
   `;
-
+  const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
   if (!OPENROUTER_API_KEY) {
     return {
       title: `Auto article ${new Date().toISOString().slice(0, 10)}`,
