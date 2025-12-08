@@ -33,7 +33,7 @@ async function generateArticle() {
     const resp = await axios.post(
       "https://openrouter.ai/api/v1/chat/completions",
       {
-        model: "deepseek/deepseek-chat", // <-- OpenRouter DeepSeek model
+        model: "deepseek/deepseek-chat",
         messages: [
           {
             role: "system",
@@ -47,8 +47,8 @@ async function generateArticle() {
         headers: {
           Authorization: `Bearer ${OPENROUTER_API_KEY}`,
           "Content-Type": "application/json",
-          "HTTP-Referer": "http://localhost", // optional but recommended
-          "X-Title": "Article Generator", // optional
+          "HTTP-Referer": "http://3.233.221.62",
+          "X-Title": "Article Generator",
         },
         timeout: 30000,
       }
